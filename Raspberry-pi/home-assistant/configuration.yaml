@@ -1,0 +1,95 @@
+
+
+
+sensor rbp3_solar_system:
+  - platform: mqtt
+    state_topic: "rbp3_solar/systemstatus"
+    name: "solar date data collected"
+    value_template: '{{ value_json.datetimedatacollected }}'
+  - platform: mqtt
+    state_topic: "rbp3_solar/systemstatus"
+    name: "solar Boot Time"
+    value_template: '{{ value_json.boottime }}'
+  - platform: mqtt
+    state_topic: "rbp3_solar/systemstatus"
+    name: "solar disk usage"
+    unit_of_measurement: '%'
+    value_template: '{{ value_json.diskusage }}'
+  - platform: mqtt
+    state_topic: "rbp3_solar/systemstatus"
+    name: "solar virtual memory"
+    value_template: '{{ value_json.virtualmem }}'
+    unit_of_measurement: '%'
+  - platform: mqtt
+    state_topic: "rbp3_solar/systemstatus"
+    name: "solar cpu usage"
+    unit_of_measurement: '%'
+    value_template: '{{ value_json.cpuusage }}'
+  - platform: mqtt
+    state_topic: "rbp3_solar/systemstatus"
+    name: "solar cpu temp"
+    unit_of_measurement: '°F'
+    value_template: '{{ value_json.cputemp }}'
+  - platform: mqtt
+    state_topic: "rbp3_solar/systemstatus"
+    name: "solar disk size"
+    value_template: '{{ value_json.disktotal }}'
+
+sensor solarsystem_data:
+  - platform: mqtt
+    state_topic: "solarcontroller/status"
+    name: "Solar Batt Volt"
+    value_template: '{{ value_json.batteryVoltage }}'
+  - platform: mqtt
+    state_topic: "solarcontroller/status"
+    name: "Solar Batt Volt percent"
+    value_template: '{{ ((value_json.batteryVoltage - 11.80) * 100)|round(1)  }}'
+  - platform: mqtt
+    state_topic: "solarcontroller/status"
+    name: "Solar Battery Percent"
+    value_template: '{{ value_json.batteryChargePercent }}'
+  - platform: mqtt
+    state_topic: "solarcontroller/status"
+    name: "Solar Data Date"
+    value_template: '{{ value_json.datetimedatacollected }}'
+  - platform: mqtt
+    state_topic: "solarcontroller/status"
+    name: "PV Voltage"
+    value_template: '{{ value_json.solarVoltage }}'
+  - platform: mqtt
+    state_topic: "solarcontroller/status"
+    name: "PV Current"
+    value_template: '{{ value_json.solarCurrent }}'
+  - platform: mqtt
+    state_topic: "solarcontroller/status"
+    name: "C. Controller Temp"
+    value_template: '{{ value_json.heatsinkTemp }}'
+  - platform: mqtt
+    state_topic: "solarcontroller/status"
+    name: "RBP Temp"
+    value_template: '{{ value_json.cputemp }}'
+    
+group:
+  default_view:
+    view: yes
+    entities:
+      - group.solarsystemtab
+      
+  systemtab:
+    name: Pi Status
+    view: yes
+    entities:
+      - group.rbp3_solar
+      
+  solarsystemtab:
+    name: Solar System
+    view: no
+    entities:
+      - sensor.solar_data_date
+      - sensor.solar_batt_volt
+      - sensor.solar_battery_percent
+      - sensor.solar_batt_volt_percent
+      - sensor.pv_voltage
+      - sensor.pv_current
+      - sensor.rbp_temp
+      - sensor.c_controller_temp      

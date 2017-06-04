@@ -1,0 +1,12 @@
+#these are the scripts that are executed by CRON at various times or upon reboot.
+0 4 * * * sudo reboot #every day at 4 am
+*/10 * * * * python /home/pi/systemdata.py
+@reboot /home/pi/solarcontroller-fan02.py
+@reboot /home/pi/solarcontrollerdata_mysql05.py
+@reboot python /home/pi/inverter_db_monitor.py
+@reboot python /home/pi/shutdown-reboot_db_monitor.py
+*/5 * * * * /home/pi/healthmonitor.py   #reboot system if stats haven't been updated in a while
+
+
+
+
